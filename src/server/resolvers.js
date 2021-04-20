@@ -1,11 +1,11 @@
 const Book = require('../models/Book');
-const Cartee = require('../models/Cart');
+const Cart = require('../models/Cart');
 
 const resolvers = {
   Query: {
     allBooks: () => Book.find(),
     detailBook: (_,args) => Book.findOne({ _id: args.id}),
-    cartItems: () => Cartee.find(),
+    cartItems: () => Cart.find(),
   },
   Mutation: {
     addBook: async (_, args) => {
@@ -17,7 +17,7 @@ const resolvers = {
     addToCart: async (_, args) => {
       const item = await Book.findById({ _id : args.id })
       const { title, author, price } = item;
-      const mycart = new Cartee({title, author, price});
+      const mycart = new Cart({title, author, price});
       await mycart.save();
       return mycart;
     },
